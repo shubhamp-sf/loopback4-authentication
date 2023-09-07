@@ -16,8 +16,7 @@ jobs:
         run: |
           git config --global user.name "shubhamp-sf"
           git config --global user.email "shubham.prajapat@sourcefuse.com"
-          git clone git@github.com:shubhamp-sf/arc-docs.git docs-repo
-          git config --list
+          git clone https://github.com/shubhamp-sf/arc-docs.git docs-repo
         env:
           GITHUB_TOKEN: ${{ secrets.T_GITHUB_TOKEN }}
 
