@@ -36,6 +36,7 @@ jobs:
           # Commit and push changes
           git add .
           git commit -m "Sync README with $(basename $GITHUB_REPOSITORY) repository"
+          git config --list
           git push --force origin $extension_branch
         env:
           GITHUB_TOKEN: ${{ secrets.T_GITHUB_TOKEN }}
