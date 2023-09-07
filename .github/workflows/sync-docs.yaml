@@ -1,0 +1,44 @@
+name: Sync README with Docs Repo
+
+# on:
+#   push:
+#     branches:
+#       - master
+on: workflow_dispatch
+permissions:
+  contents: write
+
+jobs:
+  sync-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Clone Docs Repository
+        run: |
+          git config --global user.name "shubhamp-sf"
+          git config --global user.email "shubham.prajapat@sourcefuse.com"
+          git clone https://github.com/shubhamp-sf/arc-docs.git docs-repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync README
+        run: |
+          cp README.md docs-repo/docs/arc-api-docs/extensions/loopback4-authentication/
+          cd docs-repo
+          git add .
+          git commit -m "sync loopback4-authentication docs"
+          git push origin automated/loopback4-authentication-sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automated/loopback4-authentication-sync
+          base: main
+          title: 'sync loopback4-authentication docs'
+          body: 'This pull request syncs the loopback4-authentication docs'
