@@ -2960,7 +2960,7 @@ If you think this extension is useful, please [star](https://help.github.com/en/
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/sourcefuse/loopback4-authentication/blob/master/.github/CONTRIBUTING.md) for details on the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/sourcefuse/loopback4-authentication/blob/master/.github/CONTRIBUTING.md) for details on the process for submitting pull requests.
 
 ## Code of conduct
 

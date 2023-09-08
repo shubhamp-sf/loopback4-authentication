@@ -53,10 +53,10 @@ jobs:
           cp ../extension/README.md docs/arc-api-docs/extensions/$(basename $GITHUB_REPOSITORY)/
           git add .
 
-          if [ -n "$(git diff --quiet --cached)" ]; then
-            have_changes="true";
-          else
+          if git diff --quiet --cached; then
             have_changes="false";
+          else
+            have_changes="true";
           fi
 
           echo "Have Changes to be commited: $have_changes"
@@ -65,12 +65,12 @@ jobs:
       - name: Commit Changes
         id: commit
         working-directory: arc-docs
-        if: steps.update_files.outputs.have_changes == 'yes'
+        if: steps.update_files.outputs.have_changes == 'true'
         run: |
           git commit -m "sync $(basename $GITHUB_REPOSITORY) docs"
       - name: Push Changes
         id: push_branch
-        if: steps.update_files.outputs.have_changes == 'yes'
+        if: steps.update_files.outputs.have_changes == 'true'
         working-directory: arc-docs
         run: |
           extension_branch="${{ steps.configure_git.outputs.extension_branch }}"
@@ -78,7 +78,7 @@ jobs:
 
       - name: Check PR Status
         id: pr_status
-        if: steps.update_files.outputs.have_changes == 'yes'
+        if: steps.update_files.outputs.have_changes == 'true'
         working-directory: arc-docs
         run: |
           extension_branch="${{ steps.configure_git.outputs.extension_branch }}"
@@ -89,7 +89,7 @@ jobs:
 
       - name: Create Pull Request
         id: create_pull_request
-        if: steps.pr_status.outputs.pr_exists != 'true' && steps.update_files.outputs.have_changes == 'yes'
+        if: steps.pr_status.outputs.pr_exists != 'true' && steps.update_files.outputs.have_changes == 'true'
         working-directory: arc-docs
         run: |
           extension_branch="${{ steps.configure_git.outputs.extension_branch }}"
